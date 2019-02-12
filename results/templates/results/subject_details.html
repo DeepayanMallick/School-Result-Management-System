@@ -1,0 +1,351 @@
+{% extends "results/base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block main_content %}
+<div class="mx-auto  centered">
+<h1>Half Yearly Examination 2018 Subject
+<b>{{object.subject_name}}</b> Analysis || Class: {{object.get_subjet_class_display}}</h1>
+<p style="font-size:12px"><i>updated: {{object.update_date}} {{object.update_date|naturaltime}} | published: {{object.pub_date}} {{object.pub_date | naturaltime}}</i></p>
+<hr>
+
+</div>
+
+
+
+
+
+
+{% if error %}
+
+<div class='row'>
+    <div class="col-md-12 centered">
+        <div style="text-align:center">
+            <h2 style="text-align:center;font-size:75px;padding:10px">
+                <i class="fas fa-ambulance"></i>
+            </h2>
+        <div class="alert alert-danger">
+        <strong>Opps!</strong> Subject {{object.subject_name}} Info under review....
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% else %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="div">
+            <div class="progress" style="height:50px; margin-bottom:20px">
+                <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{pass_percent|floatformat:'0'}}%">
+                    <b style="font-size:14px">Passed {{pass_percent|floatformat:'2'}}%</b>
+                </div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{fail_percent|floatformat:'0'}}%">
+                    <b style="font-size:14px">Failed {{fail_percent|floatformat:'2'}}%</b>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table " style="width:">
+
+            <tr class="table-success">
+                <td>Subject Teacher Name</td>
+                <td>
+                    <a href="{% url 'teacher_detail' object.teacher.id%}">{{object.teacher.teacher_name}}</a>
+                    <i>{{object.teacher.teach_major_subject}}</i>
+                </td>
+            </tr>
+
+            <tr class="table-success">
+                <td>Teacher Phone Number</td>
+                <td>{{object.teacher.teach_phone_number}}</td>
+            </tr>
+
+
+            <tr class="table-primary">
+                <td>Subject Name</td>
+                <td>{{object.subject_name}}</td>
+
+            </tr>
+
+            <tr class="table-info">
+                <td>Full Marks</td>
+                <td>{{object.subject_full_marks|floatformat}}</td>
+
+            </tr>
+
+
+            <tr class="table-success">
+                <td>Class</td>
+                <td>{{object.get_subjet_class_display}}</td>
+
+            </tr>
+            <tr class="table-danger">
+                <td>Code</td>
+                <td>{{object.subject_code}}</td>
+
+            </tr>
+            <tr class="table-success">
+                <td>Subject Type</td>
+                <td>{{object.get_subject_type_display}}</td>
+
+            </tr>
+            <tr class="table-info">
+                <td>Total Examinee</td>
+                <td>{{sub_std_count}}</td>
+
+            </tr>
+            <tr class="table-warning">
+                <td>Total Passed</td>
+                <td>{{sub_std_pass}}
+                    <span class="badge badge-success">{{pass_percent|floatformat:'2'}}%</span>
+                </td>
+
+            </tr>
+            <tr class="table-danger">
+                <td>Total Failed</td>
+                <td>{{sub_std_fail}}
+<span class="badge badge-danger">{{fail_percent|floatformat:'2'}}%</span>
+                </td>
+
+            </tr>
+
+            <tr class="table-info">
+                <td>Average Marks</td>
+                <td>{{sub_avg_marks|floatformat}}</td>
+
+            </tr>
+
+            <tr class="table-warning">
+            <td>Average Gradepoint (GPA)</td>
+            <td>{{sub_avg_gradepoint|floatformat:'2'}}</td>
+
+</tr>
+
+        </table>
+    </div>
+<div class="col-md-4">
+    <table class="table mx-auto" style="width:400px">
+
+        <tr class="table-primary">
+            <td>A+ | GPA 5</td>
+            <td>{{sub_std_aplus}}</td>
+
+        </tr>
+        <tr class="table-success">
+            <td>A | GPA 4</td>
+            <td>{{sub_std_a}}</td>
+
+        </tr>
+        <tr class="table-danger">
+            <td>A- | GPA 3.5</td>
+            <td>{{sub_std_aminus}}</td>
+
+        </tr>
+        <tr class="table-info">
+            <td>B | GPA 3</td>
+            <td>{{sub_std_b}}</td>
+
+        </tr>
+        <tr class="table-warning">
+            <td>C | GPA 2</td>
+            <td>{{sub_std_c}}</td>
+
+        </tr>
+        <tr class="table-danger">
+            <td>D | GPA 1</td>
+            <td>{{sub_std_d}}</td>
+
+        </tr>
+
+    </table>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="mx-auto" style="width:100%">
+                <table class="table table-hover  table-striped">
+                    <thead class="btn-success">
+                        <tr>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Roll</th>
+                            <th rowspan="2">Student Name</th>
+                            <th rowspan="2">GPA</th>
+                            <th rowspan="2">Grade</th>
+                            <th style="text-align:center" colspan="4">Marks</th>
+                           <!-- <th rowspan="2">Count Marks</th>-->
+                            <th rowspan="4">Class</th>
+
+                        </tr>
+                        <tr>
+                            <th>Theory</th>
+
+                            <th>MCQ</th>
+                            <th>Practical</th>
+                            <th>Total</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub in sub_std %}
+
+                         <tr>
+                            <td>{{forloop.counter}}</td>
+
+                            <td>{{sub.std_name.std_roll}}</td>
+
+                            {% if sub.subject_gradepoint >= 1 %}
+                            <td>
+                                <a style="color:#000" href="{% url 'std_details' sub.std_name.id%}">{{sub.std_name}}</a>
+                            </td>
+
+                            {% else %}
+                            <td style="color:red">
+                                <a style="color:red" href="{% url 'std_details' sub.std_name.id%}">{{sub.std_name}}</a> <span class="badge badge-danger"> F</span>
+                            </td>
+
+                            {% endif %}
+
+
+
+
+
+                            {% if sub.subject_gradepoint >= 1 %}
+
+                            <td>{{sub.subject_gradepoint}}
+
+                            </td>
+
+
+                            {% else %}
+                            <td style="color:red">Fail</td>
+
+                            {% endif %}
+
+
+                            <td>
+                                {% if sub.subject_gradepoint >= 5 %}
+                                 A+
+                                {% elif sub.subject_gradepoint >= 4 and sub.subject_gradepoint <= 4 %} A
+                                {% elif sub.subject_gradepoint >= 3.5 and sub.subject_gradepoint <= 3.5 %} A-
+                                {% elif sub.subject_gradepoint >= 3 and sub.subject_gradepoint <= 3 %} B
+                                {% elif sub.subject_gradepoint >= 2 and sub.subject_gradepoint <= 2 %} C
+                                {% elif sub.subject_gradepoint >= 1 and sub.subject_gradepoint <= 1 %} D
+                                {% elif sub.subject_gradepoint < 1 %} F
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{sub.subject_theory|floatformat}}
+
+                                {% if sub.first_part_theory %}
+                                {{sub.subject_name.first_part_name}}-
+                                 {{sub.first_part_theory|floatformat}}
+
+                                {% endif %}
+
+                                {% if sub.first_part_theory %}
+                                <br>
+                                {{sub.subject_name.second_part_name}}-
+
+                                {{sub.second_part_theory|floatformat }}
+                                {% endif %}
+
+                            </td>
+                            <td>
+                                {{sub.subject_mcq|floatformat}}
+
+                                {% if sub.first_part_mcq %}
+                                {{sub.subject_name.first_part_name}}-
+                                {{sub.first_part_mcq|floatformat}}
+                                {% endif %}
+
+                                {% if sub.second_part_mcq %}
+                                <br>
+                                {{sub.subject_name.second_part_name}}-
+                                {{sub.second_part_mcq|floatformat}}
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{sub.subject_practical|floatformat}}
+                            </td>
+                            <td>
+                            {{sub.subject_total_marks|floatformat}}
+                            </td>
+
+
+                            <!--<td>{{sub.subject_marks|floatformat}}</td>-->
+
+
+                            <td>{{sub.std_name.std_class}}</td>
+                        </tr>
+
+
+                        {% endfor %}
+
+
+
+                    </tbody>
+                </table>
+
+
+
+
+ {% block pagination %} {% if is_paginated %}
+<div class="pagination">
+    <ul class="pagination mx-auto">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <a class="page-link" href="#"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a>
+        </li>
+
+        </li>
+
+
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        </li>
+        {% endif %}
+        </li>
+    </ul>
+    {% endif %} {% endblock %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endblock main_content %}

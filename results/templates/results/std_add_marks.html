@@ -1,0 +1,17 @@
+{% extends "results/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block main_content %}
+
+<h2>Hey</h2>
+
+<div class="col-md-6 offset-md-3  centered">
+    <form action="" method="POST">
+        {% csrf_token %} {{newForm | crispy}}
+
+        <input type="submit" value="Add Your Subject" class="btn btn-primary">
+    </form>
+</div>
+  ff{{x}}
+{% endblock main_content %}

@@ -1,0 +1,215 @@
+{% extends "results/base.html" %} 
+{% load crispy_forms_tags %} 
+{% load humanize %} 
+{% block main_content %}
+
+<div>
+    <div>
+        <div class="row" >
+<div class="col-md-4" style="border:1px solid black; padding:13px">
+<h2>Total Student: {{total_std_count}}
+    <span class="badge badge-secondary">OK</span>
+</h2>
+
+
+                <p>Passed {{total_std_pass_count}}
+                        <span class="badge badge-success">{{total_pass|floatformat:'2'}}%</span>
+                </p>
+                <p>Fail {{total_std_fail_count}}
+                        <span class="badge badge-danger">{{total_fail|floatformat:'2'}}%</span>
+                </p>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="div">
+                                <div class="progress" style="height:20px; margin-bottom:20px">
+                                <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{ total_pass|floatformat:'0'}}%">
+                                <b style="font-size:12px">Pass {{total_pass|floatformat:'2'}}%</b>
+                                                                    </div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail|floatformat:'0'}}%">
+                                <b style="font-size:12px">Fail {{total_fail|floatformat:'2'}}%</b>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+<div class="col-md-4" style="border:1px solid black; padding:13px">
+<h2>Male Student: {{total_std_count_male}}
+    <span class="badge badge-secondary">OK</span>
+</h2>
+                <p>Passed {{total_std_pass_count}}
+                    <span class="badge badge-success">{{total_pass_male|floatformat:'2'}}%</span>
+                 </p>
+                <p>Fail {{total_std_fail_count_male}}
+                    <span class="badge badge-danger">{{total_fail_male|floatformat:'2'}}%</span>
+                </p>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="div">
+                            <div class="progress" style="height:20px; margin-bottom:20px">
+                                <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{ total_pass_male|floatformat:'0'}}%">
+                                <b style="font-size:12px">Pass {{total_pass_male|floatformat:'2'}}%</b>
+                                                                </div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail_male|floatformat:'0'}}%">
+                                <b style="font-size:12px">Fail {{total_fail_male|floatformat:'2'}}%</b>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+<div class="col-md-4" style="border:1px solid black; padding:13px">
+<h2>Female Student: {{total_std_count_female}}
+    <span class="badge badge-secondary">OK</span>
+</h2>
+<p>Passed {{total_std_pass_count_female}}
+                    <span class="badge badge-success">{{total_pass_female|floatformat:'2'}}%</span>
+                </p>
+                <p>Fail {{total_std_fail_count_female}}
+                    <span class="badge badge-danger">{{total_fail_female|floatformat:'2'}}%</span>
+                </p>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="div">
+                            <div class="progress" style="height:20px; margin-bottom:20px">
+                                <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{ total_pass_female|floatformat:'0'}}%">
+<b style="font-size:12px">Pass {{total_pass_female|floatformat:'2'}}%</b>
+                                </div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail_female|floatformat:'0'}}%">
+                                    <b style="font-size:12px">Fail {{total_fail_female|floatformat:'2'}}%</b>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+<div class="col-md-4" style="border:1px solid black; padding:13px">
+    <h1>Class Six</h1>
+    <h2>Male Student: {{total_std_count_male6}}</h2>
+    <p>Passed {{total_std_pass_count_male6}}
+        <span class="badge badge-success">{{total_pass_male6|floatformat:'2'}}%</span>
+    </p>
+    <p>Fail {{total_std_fail_count_male6}}
+        <span class="badge badge-danger">{{total_fail_male6|floatformat:'2'}}%</span>
+    </p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="div">
+                <div class="progress" style="height:20px; margin-bottom:20px">
+                    <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{ total_pass_male6|floatformat:'0'}}%">
+                        <b style="font-size:12px">Pass {{total_pass_male6|floatformat:'2'}}%</b>
+                    </div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail_male6|floatformat:'0'}}%">
+                        <b style="font-size:12px">Fail {{total_fail_male6|floatformat:'2'}}%</b>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="col-md-4" style="border:1px solid black; padding:13px">
+    <h1>Class Six</h1>
+    <h2>Female Student: {{total_std_count_female6}}</h2>
+    <p>Passed {{total_std_pass_count_female6}}
+        <span class="badge badge-success">{{total_pass_female6|floatformat:'2'}}%</span>
+    </p>
+    <p>Fail {{total_std_fail_count_female6}}
+        <span class="badge badge-danger">{{total_fail_female6|floatformat:'2'}}%</span>
+    </p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="div">
+                <div class="progress" style="height:20px; margin-bottom:20px">
+                    <div class="progress-bar  progress-bar-striped progress-bar-animated  bg-success" style="width:{{ total_pass_female6|floatformat:'0'}}%">
+                        <b style="font-size:12px">Pass {{total_pass_female6|floatformat:'2'}}%</b>
+                    </div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail_female6|floatformat:'0'}}%">
+                        <b style="font-size:12px">Fail {{total_fail_female6|floatformat:'2'}}%</b>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>Six</th>
+                            <th>Seven</th>
+                            <th>Eight</th>
+                            <th>Nine</th>
+                            <th>Ten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+
+
+                        <tr>
+                            <td>{{total_std_count_six}}</td>
+                            <td>{{total_std_count_7}}</td>
+                            <td>{{total_std_count_8}}</td>
+                            <td>{{total_std_count_9}}</td>
+                            <td>{{total_std_count_10}}</td>
+                        </tr>
+                        
+                        
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+
+{% endblock main_content %}

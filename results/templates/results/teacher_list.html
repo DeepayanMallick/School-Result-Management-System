@@ -1,0 +1,58 @@
+{% extends "results/base.html" %}
+{% block main_content %}
+{% load humanize %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mx-auto" style="font-size:25px">Teachers List</h2>
+        <p>Total Teacher: {{teacher_count}}</p>
+    </div>
+</div>
+
+<div class="row">
+    {% if object_list %}
+    
+    {% for teacher in object_list %}
+    <div class="col-md-4">
+        <div class="card" style="">
+
+            
+
+            <div class="card-body">
+                <h2 class="card-title">{{forloop.counter|ordinal}} Teacher Name: 
+                <a href="{% url 'teacher_detail' teacher.id %}">{{teacher.teacher_name}}</a>
+               
+                </h2>
+
+                <p class="card-text">{{teacher.teach_major_subject}}</p>
+                <p class="card-text">Phone Number: {{teacher.teach_phone_number}}</p>
+<button data-toggle="collapse" class="btn btn-success" data-target="#demo{{teacher.id}}">Subject's List</button>
+
+                <div id="demo{{teacher.id}}" class="collapse">
+                {% for sub in teacher.teacher.all %}
+                <p style="margin-top:20px">
+
+                    <a href="{% url 'subject_details' sub.id %}" class="btn btn-info">
+                        {{forloop.counter}}. {{sub.subject_name}} Class {{sub.get_subjet_class_display}}
+                        <br> Group {{sub.get_subject_group_display}} Code {{sub.subject_code}}</a>
+                </p>
+                {% endfor %}
+
+                <p>Updated: {{teacher.update_date| naturaltime}}</p>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+
+
+
+
+
+{% endblock %}

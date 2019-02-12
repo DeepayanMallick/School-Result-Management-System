@@ -1,0 +1,415 @@
+
+{% extends "results/base.html" %}
+{% block title %}{{object.std_name}} Results {% endblock %}
+{% block main_content %}
+{% load humanize %}
+
+
+
+<div class="col-md-6 offset-md-3  centered">
+    <div>
+        <h1 style="text-align:center" class="title_custom">
+            Fulhata Secondary School
+        </h1>
+        <h2 style="text-align:center" class="title_custom_two">
+            Eiin No: 115030, Founded: 1946 <br>Contact:fulhatahs@gmail.com, 01713797938 Morrelganj, Bagerhat.
+
+        </h2>
+        <hr>
+<p style="font-size:22px;padding:20px;text-align:center">
+
+    {% if object.std_class == '10' %}
+    Pre Test Examination 2018
+    {% else %}
+    Half Yearly Examination 2018
+
+    {% endif %}
+
+</p>
+
+    </div>
+</div>
+
+
+{% if error %}
+
+<div class='row'>
+    <div class="col-md-12 centered">
+        <div style="text-align:center">
+            <h2 style="text-align:center;font-size:75px;padding:10px">
+                <i style="font-size: 98px;" class="fas fa-frog"></i>
+                <i style="font-size: 50px;" class="fas fa-ambulance"></i>
+            </h2>
+        <div class="alert alert-danger">
+        <strong>Opps!</strong> "{{object.std_name}}" Info under review....
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% else %}
+<div class="row">
+    <div class="col-md-6 centered">
+
+
+<p style="text-align:center;font-size:19px;color:white;padding:10px; letter-spacing: 1px;" class=" card bg-info text-white card-title">
+    <i class="fas fa-user-graduate"> {{object.std_name}}</i>
+
+
+        <!-- <a href="{% url 'std_update' object.id %}">
+                <span class="badge badge-warning">Update</span>
+            </a>
+            <a href="{% url 'stdAdd_marks' object.id %}">
+                <span class="badge badge-warning">Add Marks</span>
+            </a>
+            <a href="{% url 'stdmarks_update' object.pk %}">
+                <span class="badge badge-warning">Added Update</span>
+            </a>-->
+
+
+    </p>
+
+
+
+
+
+        <table class="table">
+
+            <tbody>
+                    <tr class="table-primary">
+                    <td>Gender</td>
+                    <td>{{object.get_std_gender_display}}</td>
+
+                </tr>
+
+                <tr class="table-success">
+                    <td>Class Roll</td>
+                    <td>{{object.std_roll}}</td>
+
+                </tr>
+                <tr class="table-warning">
+                    <td>Class</td>
+                    <td>{{object.get_std_class_display}}</td>
+
+                </tr>
+
+                    <tr class="table-info">
+                    <td>Group</td>
+                    <td>{{object.get_std_group_display}}</td>
+
+                </tr>
+
+                {% if ranks.class_rank < object.std_roll %}
+                <tr class="table-primary">
+                    <td>Class Rank- {{object.get_std_class_display}}</td>
+                        <td style="color:royalblue"> {{ranks.class_rank|ordinal}} - Rank Up
+                        <i style="color:royalblue;font-size:25px" class="fas fa-angle-up"></i>
+                    </td>
+                </tr>
+
+                {% elif ranks.class_rank == object.std_roll %}
+                <tr class="table-light">
+                    <td>Class Rank- {{object.get_std_class_display}}</td>
+
+                    <td style="color:blue">{{ranks.class_rank|ordinal}} - Rank Label
+                    <i class="fas fa-arrows-alt-v"></i> </td>
+                </tr>
+
+
+                {% elif ranks.class_rank >  object.std_roll %}
+                <tr class="table-danger">
+                    <td>Class Rank- {{object.get_std_class_display}}</td>
+                    <td style="color:red"> {{ranks.class_rank|ordinal}} - Rank Down
+                    <i style="color:red" class="fas fa-angle-down"></i> </td>
+                    {% endif %}
+                </tr>
+
+
+
+                <tr class="table-success">
+                    <td>School Rank</td>
+                    <td>{{ranks.school_rank|ordinal}}</td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+
+
+</div>
+
+<div class="col-md-6 centered">
+
+    {% if object.std_gpa == 'Withheld' %}
+
+    <p style="text-align:center;font-size:15px;color:white;padding:10px" class=" card bg-danger text-white card-title">Result: Withheld (absent)</p>
+
+    {% endif %}
+
+
+    {% if fail >= 1 and object.std_gpa != 'Withheld' %}
+    <p style="text-align:center;font-size:15px;color:white;padding:10px" class=" card bg-danger text-white card-title">Result: Fail {{fail}} Subject</p>
+
+
+
+
+
+    {% elif object.std_gpa != 'Withheld' %}
+    <p style="text-align:center;font-size:15px;color:white;padding:10px" class=" card bg-success text-white card-title">Result: {% if toatal_grade_point > 5 %} GPA- {{toatal_grade_point | floatformat:0}}.00 (out of 5)  | Total Marks-
+    {{ total_marks|floatformat}} {% else %} GPA- {{toatal_grade_point | floatformat:2}} (out of 5) | Total Marks- {{ total_marks|floatformat}}
+    {% endif %}
+
+
+
+
+    </p>
+
+    {% endif %}
+
+<table class="table">
+
+    <tbody>
+
+            {% if fail >= 1 %}
+            <tr class="table-danger">
+                <td>
+                    Marks
+                </td>
+
+                <td>{{ total_marks|floatformat}}
+<span class="badge badge-danger">F{{fail}} </span>
+
+                </td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+               {% elif  object.std_gpa != 'Withheld' %}
+                <tr class="table-success">
+                        <td>Result</td>
+                        <td>{% if toatal_grade_point > 5 %} GPA- {{toatal_grade_point | floatformat:0}}.00 (out of 5) | Total
+                                Marks- {{ total_marks|floatformat}} {% else %} GPA- {{toatal_grade_point | floatformat:2}} (out of 5)</td>
+
+                </tr>
+
+                <tr class="table-success">
+                        <td>Total Marks</td>
+                        <td>
+                                {{ total_marks|floatformat}} {% endif %}</td>
+
+                    </tr>
+
+
+                {% endif %}
+
+
+        <tr class="table-success">
+            <td>Maximum Number</td>
+            <td>{{subject_max_number}}</td>
+
+        </tr>
+        <tr class="table-warning">
+            <td>Average Number</td>
+            <td>{{sub_avg_number|floatformat}}</td>
+
+        </tr>
+        <tr class="table-danger">
+            <td>Lowest Number</td>
+            <td>{{subject_min_number}}</td>
+
+        </tr>
+
+
+    </tbody>
+</table>
+</div>
+
+
+</div>
+
+
+
+<div class="row">
+
+<div class="col-lg-12 ">
+            {% if object.marks_set.all %}
+<hr>
+            <p style="font-size:18px;padding:5px;text-align:center">
+
+                <i class=" fas fa-chevron-circle-down"></i> Result Details
+            </p>
+
+<table class="table mx-auto table-hover table-bordered" style="text-align:center;font-size:10px">
+
+
+                {% if fail >= 1 or  object.std_gpa == 'Withheld'%}
+                <thead class="btn-danger">
+                {% else %}
+                <thead class="btn-success">
+                {% endif %}
+                    <tr>
+                        <th rowspan="2">No</th>
+                        <th rowspan="2">Subject Code</th>
+                        <th rowspan="2">Subject Name</th>
+                        <th rowspan="2">Full Marks</th>
+                        <th colspan="4">Marks</th>
+                       <!-- <th rowspan="2">Count Marks</th>-->
+                        <th rowspan="4">Grade Point</th>
+                        <th rowspan="4">Grade</th>
+                    </tr>
+                    <tr>
+                        <th>Theory</th>
+
+                        <th>MCQ</th>
+                        <th>Practical</th>
+                        <th>Total</th>
+
+                    </tr>
+                </thead>
+
+
+
+                <tbody>
+                    {% for i in object.marks_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.subject_name.subject_code}}</td>
+
+
+                        <!--subject name with fail style-->
+                        {% if i.subject_gpa == "F" %}
+                        <td style="text-align:left;color:red">
+
+                            {% if i.subject_name.subject_type == 'O' %}
+                            {{i.subject_name.subject_name}}
+                            <span style="font-size:7px!important;font-style:italic">({{i.subject_name.get_subject_type_display}})
+                            </span>
+                            {% else %}
+                            {% if i.subject_name.first_part_name%}
+                            {{i.subject_name.subject_name}} {{i.subject_name.first_part_name}}
+                            <br> {{i.subject_name.subject_name}} {{i.subject_name.second_part_name}}
+                            {% else %} {{i.subject_name.subject_name}}
+                            {% endif%}
+                            {% endif %}
+
+                            {% if i.absent_check == 'Y'%}
+
+                            <span style="color:red;font-size:7px;font-style:italic">Absent</span>
+
+                            {% endif %}
+
+                        </td>
+
+                        {% else %}
+
+                        <td style="text-align:left;">
+                            {% if i.absent_check == 'Y'%}
+
+                            <span style="color:red;font-size:7px;font-style:italic">Absent</span>
+
+                            {% endif %}
+                            {% if i.subject_name.subject_type == 'O' %} {{i.subject_name.subject_name}}
+                            <span style="font-size:7px!important;font-style:italic">({{i.subject_name.get_subject_type_display}})</span>
+                            {% else %} {% if i.subject_name.first_part_name%} {{i.subject_name.subject_name}} {{i.subject_name.first_part_name}}
+                            <br> {{i.subject_name.subject_name}} {{i.subject_name.second_part_name}} {% else %} {{i.subject_name.subject_name}} {% endif%}
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        <!--end subject name with fail style-->
+
+
+
+
+
+
+                        <td>{{i.subject_name.subject_full_marks|floatformat}}</td>
+
+                       <td style="text-align:center">
+                            {{i.subject_theory|floatformat}}
+
+                            {% if i.first_part_theory %}
+                            {{i.first_part_theory|floatformat}}
+
+                            {% endif %}
+
+                            {% if i.second_part_theory %}
+                            <br>
+                            {{i.second_part_theory|floatformat}}
+                            {% endif %}
+                        </td>
+
+                       <td style="text-align:center">
+                           {{i.subject_mcq|floatformat}}
+
+                            {% if i.first_part_mcq %}
+
+                            {{i.first_part_mcq|floatformat}}
+
+                            {% endif %}
+
+                            {% if i.second_part_mcq %}
+                            <br>
+                            {{i.second_part_mcq|floatformat}}
+                            {% endif %}
+                        </td>
+
+                        <td style="text-align:center">{{i.subject_practical|floatformat}}</td>
+                        <td style="text-align:center">{{i.subject_total_marks|floatformat}}</td>
+
+                        <!--<td style="text-align:right">{{i.subject_marks|floatformat}}</td>-->
+
+
+                        <td>{{i.subject_gradepoint|floatformat}}</td>
+
+                        {% if i.subject_gpa == "F" %}
+                        <td style="color:red">{{i.subject_gpa}}</td>
+                        {% else %}
+                        <td>{{i.subject_gpa}}</td>
+
+                        {% endif %}
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <p>no update</p>
+            {% endif %}
+
+
+            <hr>
+            <p style="font-size:12px">
+<i>updated: {{object.update_date}} {{object.update_date|naturaltime}} |  published: {{object.pub_date}} {{object.pub_date | naturaltime}}</i>
+            </p>
+
+    </div>
+</div>
+
+
+
+<div>
+    <!--
+    <div>
+            <a href="{% url 'pdf' object.id%}" target="_blank">
+            <button type="button" class="btn btn-success">
+            <i class="fas fa-book-open"></i> Print Result Card
+            </button>
+        </a>
+    </div>
+    -->
+</div>
+<p style="font-size:2px">{{object.std_total_marks}} {{object.total_marks_sum}}</p>
+{% endif %}
+
+{% endblock main_content %}

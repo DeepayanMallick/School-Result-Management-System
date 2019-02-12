@@ -1,0 +1,79 @@
+{% extends "results/base.html" %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+
+
+
+<div class="row">
+
+<div class="col-md-12 ">
+<h1 style="text-align:center" class="mx-auto">Half Yearly Examination 2018 Subject Wise Search</h1>
+</div>
+
+
+<div class="col-md-3 offset-md-4  centered">
+
+    <form action="" method="POST">
+        {% csrf_token %}
+       
+         {{form | crispy}}
+        <button type="submit" class="btn btn-primary">Search Subject</button>
+    </form>
+</div>
+
+<hr>
+
+<div class="col-md-5 offset-md-3  centered">
+    <div class="card">
+
+        <div class="card-body">
+        {% if std_search %} 
+        <a style="" href="{% url 'subject_details' std_search.id %}">
+            <h4 style="text-align:center;font-size:15px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-success text-white card-title">Subject Name: {{std_search.subject_name}}</h4>
+        </a>
+
+        
+        <p class="col-md-10 offset-md-1 card bg-info text-white card-text">Class: {{std_search.subjet_class}}
+        Subject Code: {{std_search.subject_code}}
+        <br> Type: {{std_search.get_subject_type_display}}
+        <br> Full Marks: {{std_search.subject_full_marks|floatformat}} Pass Marks: {{std_search.subject_pass_marks|floatformat}}
+        <br>
+        students participated {{std_search_count}}
+        </p>
+
+
+
+           
+
+              
+        
+
+           
+
+
+        {% elif error == None %}
+
+        <h4 style="text-align:center;font-size:15px;padding:10px" class="card bg-dark text-white card-title">Fulhata Secondary School Result Application</h4>
+
+        
+
+
+
+        {% elif error == 'error' %}
+            <h4 style="text-align:center;font-size:15px;padding:10px" class="card bg-danger text-white card-title">Subject Not Found</h4>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+{% endblock main_content %}
+

@@ -1,0 +1,150 @@
+{% extends "results/base.html" %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+
+
+
+<div class="row">
+<div class="col-md-12 ">
+<h1 style="text-align:center" class="mx-auto">Half Yearly/Pre-Test Examination 2018 Result</h1>
+</div>
+
+
+
+<div class="col-md-3 offset-md-4  centered">
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+         {{form | crispy}}
+        <button type="submit" class="btn btn-primary">Search Result</button>
+    </form>
+</div>
+
+<hr>
+
+<div class="col-md-5 offset-md-3  centered">
+    <div class="card">
+
+        <div class="card-body">
+        {% if std_search %}
+
+
+        {% if std_search.std_fail_subject < 1 %}
+
+        <h4 style="text-align:center;font-size:15px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-success text-white card-title"><a style="color:#fff" href="{% url 'std_details' std_search.id %}">{{std_search.std_name}}</a></h4>
+        </a>
+
+        {% elif std_search.std_fail_subject >= 1 %}
+        <h4 style="text-align:center;font-size:15px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-danger text-white card-title">
+            <a style="color:#fff" href="{% url 'std_details' std_search.id %}">{{std_search.std_name}}
+            <span class="badge badge-info">F {{std_search.std_fail_subject}} </span>
+            </a>
+        </h4>
+
+
+        {% endif %}
+
+
+
+
+
+
+        <p style="text-align:center;font-size:16px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-primary text-white
+            card-text" >Class {{std_search.get_std_class_display}} | Roll {{std_search.std_roll}}</p>
+
+            {% if std_search.std_fail_subject < 1 %}
+
+            {% if std_search.std_grade_point_total_subject_avg == 0 or std_search.std_grade_point_total_subject_avg == None  %}
+
+            <p style="text-align:center;font-size:12px;color:white;padding:20px" class="col-md-10 offset-md-1 card bg-danger text-white card-text">Result currently unavailable or
+                    <b style="font-size:29px">Withheld (absent)</b>
+                    <i style="font-size: 28px;" class="fas fa-frog"></i>
+                    <i style="font-size: 50px;" class="fas fa-ambulance"></i>
+                </p>
+
+                {% elif std_search.std_gpa == 'Withheld' %}
+
+                <p style="text-align:center;font-size:12px;color:white;padding:20px" class="col-md-10 offset-md-1 card bg-danger text-white card-text">Result:
+                    <b style="font-size:29px">Withheld (absent)</b>
+                    <i style="font-size: 28px;" class="fas fa-frog"></i>
+                    <i style="font-size: 50px;" class="fas fa-ambulance"></i>
+                </p>
+
+
+                {% else %}
+
+                 <p style="text-align:center;font-size:16px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-info text-white card-text">
+                    <b>{% if std_search.std_grade_point_total_subject_avg > 5 %}
+                        GPA {{std_search.std_grade_point_total_subject_avg | floatformat:0}}.00
+                        {% else %}
+                        GPA {{std_search.std_grade_point_total_subject_avg | floatformat:2}}
+
+                        {% endif %}
+                    </b>
+
+                <i>(Out of 5) </i> Total Marks {{std_search.std_total_marks|floatformat}}
+
+                <button style="text-align:center;font-size:15px;color:white;padding:10px" type="button" class="btn btn-info centered active">Class Rank: {{ranks.class_rank}} ( Class: {{std_search.get_std_class_display}}) <br> School Rank: {{ranks.school_rank}} </button>
+
+
+                </p>
+                <!--
+
+                <div class="col-md-5 offset-md-4  centered ">
+                    <a href="{% url 'pdf' std_search.id%}" class="card-link" target="_blank">
+                        <i class="fas fa-book-open"></i> Result Print
+                    </a>
+                </div>
+                -->
+
+               {% endif %}
+
+            {% else %}
+
+            <p style="text-align:center;font-size:10px;color:white;padding:10px" class="col-md-10 offset-md-1 card bg-danger text-white card-text">
+            {% if std_search.std_gpa == 'Withheld' %}
+             <b>Result: {{std_search.std_gpa}} (absent)</b>
+
+            {% else %}
+
+            <b>Result: {{std_search.std_gpa}}</b>
+
+            {% endif %}
+            </p>
+            <!--
+            <div class="col-md-5 offset-md-4  centered ">
+                <a href="{% url 'pdf' std_search.id%}" class="card-link" target="_blank">
+                    <i class="fas fa-book-open"></i> Result Print
+                </a>
+            </div>
+            -->
+
+            {% endif %}
+
+
+
+
+            {% elif std_search == None %}
+
+            <h4 style="text-align:center;font-size:15px;padding:10px" class="card bg-dark text-white card-title">Fulhata Secondary School Result Application</h4>
+
+
+             {% else %}
+            <h4 style="text-align:center;font-size:15px;padding:10px" class="card bg-danger text-white card-title">Result Not Found</h4>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+{% endblock main_content %}
+

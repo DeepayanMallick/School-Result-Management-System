@@ -1,0 +1,55 @@
+{% extends "results/base.html" %} 
+{% block main_content %} 
+{% load humanize %}
+
+<div class="row">
+    <div class="col-md-12">
+    <h1>Teacher Name: {{ object.teacher_name }}</h1>
+    <p>Phone Number: {{ object.teach_phone_number }}</p>
+    <p class="card-text">{{object.teach_major_subject}}</p>
+    <p style="font-size:5px">Published: {{ object.pub_date|naturaltime}}</p>
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#demo">Subject</button>
+
+<div id="demo" class="collapse">
+<table class="table table-borderless">
+    <thead>
+        <tr>
+            <th>SL</th>
+            <th>Subject Name</th>
+            <th>Class</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in object.teacher.all %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>
+                <a href="{% url 'subject_details' sub.id %}">{{sub.subject_name}} </a>
+            </td>
+            <td>{{sub.get_subjet_class_display}}</td>
+            <td>{{sub.get_subject_type_display}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+
+
+    
+
+        
+        
+      
+    
+
+    
+</div>
+
+
+
+
+{% endblock main_content %}

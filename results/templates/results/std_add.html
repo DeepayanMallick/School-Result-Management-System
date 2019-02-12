@@ -1,0 +1,61 @@
+{% extends "results/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main_content %}
+
+<div class="col-md-6 offset-md-3  centered">
+    <div class="alert alert-success">
+        <h3>Add Student in Our Database</h3>
+    </div>
+</div>
+
+
+<div class="col-md-6 offset-md-3  centered">
+    <form action="" method="POST">
+        {% csrf_token %} 
+        {{form|crispy}}
+
+<input type="submit" value="Submit" class="btn btn-info">
+    </form>
+
+</div>
+
+
+<div class="col-md-5 offset-md-3  centered">
+
+    <h1>Last Added Students</h1>
+
+</div>
+
+<div class="col-md-6 offset-md-3  centered">
+    <div>
+<table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Roll</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for std in std_all %}
+                <tr>
+                    <td>
+                        <a href="{% url 'std_details' std.id %}">{{std.std_name}}</a>
+                    </td>
+                    <td>{{std.std_class}}</td>
+                    <td>{{std.std_roll}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+          
+          
+          
+        
+    </div>
+</div>
+
+  
+{% endblock %}

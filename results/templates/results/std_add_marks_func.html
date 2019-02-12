@@ -1,0 +1,18 @@
+{% extends "results/base.html" %} {% load crispy_forms_tags %} {% block main_content %}
+
+<h2>Hey this is work</h2>
+
+<p>Gender: {{std.std_gender}}</p>
+<p>Roll: {{std.std_roll}}</p>
+<p>Class: {{std.std_class}}</p>
+<p>Group: {{std.std_group}}</p>
+
+
+<div class="col-md-6 offset-md-3  centered">
+    <form action="" method="POST">
+        {% csrf_token %} {{form | crispy}}
+
+        <input type="submit" value="Add Your Subject" class="btn btn-primary">
+    </form>
+</div>
+ff{{x}} {% endblock main_content %}

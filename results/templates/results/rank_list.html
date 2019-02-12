@@ -1,0 +1,156 @@
+{% extends "results/base.html" %}
+
+{% block main_content %}
+{% load humanize %}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 mx-auto ">
+
+        <div class="div">
+            <p>Total Student: {{rank_count}} <i>(all class)</i></p>
+            <h2 class="mx-auto" style="width:70%;font-size:25px">Half Yearly Examination 2018 School Rank List</h2>
+            <div class="progress" style="height:50px">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{total_pass}}%">Pass {{total_pass|floatformat}} %
+            </div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{total_fail}}%">Fail {{total_fail|floatformat}} %
+            </div>
+
+        </div>
+            <hr>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                       <!-- <th>SL</th>-->
+                        <th>School Rank</th>
+                        <th>Name</th>
+                        <th>Class Rank</th>
+                        <th>Class</th>
+                        <th>Roll</th>
+                        <th>GPA</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rank in  object_list%}
+                        <tr>
+                           <!-- <td>{{forloop.counter}}</td>-->
+
+                            <td>{{rank.school_rank |ordinal}}</td>
+
+                            {% if rank.std.std_fail_subject >= 1 %}
+                            <td >
+                            <a style="color:red" href="{%url 'std_details' rank.std.id%}">{{rank.std}}
+                            <span class="badge badge-danger">F{{rank.std.std_fail_subject}}</span>
+                            </a>
+                            </td>
+                            {% else %}
+                            <td>
+                                <a href="{%url 'std_details' rank.std.id%}">{{rank.std}}</a>
+                            </td>
+                            {% endif %}
+
+
+
+
+
+
+                            {% if  rank.std.std_roll < rank.class_rank %}
+                            <td style="color:red"> {{rank.class_rank|ordinal}}
+                                <i class="fas fa-arrow-down"></i> class rank down </td>
+
+                            {% elif rank.std.std_roll > rank.class_rank %}
+
+                            <td style="color:seagreen">
+                                {{rank.class_rank|ordinal}}
+                                <i class="fas fa-arrow-up"></i> class rank up
+                            </td>
+
+                            {% elif rank.std.std_roll == rank.class_rank %}
+                            <td style="color:#3498db">
+                            {{rank.class_rank |ordinal}}
+                            <i class="fas fa-arrows-alt-v"></i> class rank labeled
+                            </td>
+
+
+
+                            {% else %}
+
+                            {% endif %}
+
+
+
+
+
+                            <td>{{rank.std.std_class}}</td>
+                            <td>{{rank.std.std_roll}}</td>
+
+                            {% if rank.std.std_fail_subject >= 1 and rank.std.std_gpa != 'Withheld' %}
+                            <td style="color:red">
+                                Fail {{rank.std.std_fail_subject}} Subject
+                            </td>
+
+                            {% elif rank.std.std_gpa == 'Withheld' %}
+
+                             <td style="color:red">
+                                Withheld (Absent)
+                            </td>
+
+
+
+                            {% else %}
+                            <td>
+                                {% if rank.std.std_grade_point_total_subject_avg > 5 %}
+                                {{rank.std.std_grade_point_total_subject_avg|floatformat:0}}.00
+
+                                {% else %}
+                                {{rank.std.std_grade_point_total_subject_avg|floatformat:'2'}}
+
+                                {% endif %}
+                            </td>
+                            {% endif %}
+
+                            <!--<td>{{rank.std.std_total_marks|floatformat}}</td>!-->
+                            <td>{{rank.std.std_marks_with_fail_sub|floatformat}}</td>
+
+                        </tr>
+                     {% endfor %}
+                 </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% block pagination %} {% if is_paginated %}
+<div class="pagination">
+<ul class="pagination mx-auto">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+<a class="page-link" href="#"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a>
+</li>
+
+        </li>
+
+
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+        </li>
+        {% endif %}
+    </li>
+</ul>
+{% endif %} {% endblock %}
+
+
+
+
+
+
+{% endblock %}

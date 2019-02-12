@@ -1,0 +1,33 @@
+{% extends "results/base.html" %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+
+<div class="col-md-3 offset-md-4  centered">
+    <h2>Update </h2>
+</div>
+
+
+<div class="col-md-6 offset-md-3  centered">
+<form action="" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+</div>
+<h3></h3>
+
+
+
+
+<div class="col-md-6 offset-md-3  centered">
+    <form action="" method="POST">
+        {% csrf_token %} 
+        {{newForm | crispy}}
+
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+</div>
+
+
+{% endblock main_content %}
